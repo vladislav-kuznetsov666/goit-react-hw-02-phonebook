@@ -3,19 +3,17 @@ import { nanoid } from 'nanoid';
 import { Form, Input, Button, Text } from './ContactForm.styled';
 
 function ContactForm({ addContact, contacts }) {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [formData, setFormData] = useState({ name: '', number: '' });
 
-  const handleNameChange = event => {
-    setName(event.target.value);
-  };
-
-  const handleNumberChange = event => {
-    setNumber(event.target.value);
+  const handleInputChange = event => {
+    const { name, value } = event.target;
+    setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = event => {
     event.preventDefault();
+    const { name, number } = formData;
+
     if (name.trim() === '' || number.trim() === '') {
       return;
     }
@@ -23,6 +21,7 @@ function ContactForm({ addContact, contacts }) {
     const existingContactByName = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
+
     if (existingContactByName) {
       alert('Contact with this name already exists!');
       return;
@@ -31,6 +30,7 @@ function ContactForm({ addContact, contacts }) {
     const existingContactByNumber = contacts.find(
       contact => contact.number === number.trim()
     );
+
     if (existingContactByNumber) {
       alert('Contact with this number already exists!');
       return;
@@ -41,11 +41,11 @@ function ContactForm({ addContact, contacts }) {
       name: name.trim(),
       number: number.trim(),
     };
+
     addContact(newContact);
-    setName('');
-    setNumber('');
+    setFormData({ name: '', number: '' });
   };
-  
+
   return (
     <Form onSubmit={handleSubmit}>
       <Text>Name</Text>
@@ -55,8 +55,8 @@ function ContactForm({ addContact, contacts }) {
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
-        value={name}
-        onChange={handleNameChange}
+        value={formData.name}
+        onChange={handleInputChange}
       />
       <Text>Number</Text>
       <Input
@@ -65,8 +65,8 @@ function ContactForm({ addContact, contacts }) {
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required
-        value={number}
-        onChange={handleNumberChange}
+        value={formData.number}
+        onChange={handleInputChange}
       />
       <Button type="submit">Add Contact</Button>
     </Form>

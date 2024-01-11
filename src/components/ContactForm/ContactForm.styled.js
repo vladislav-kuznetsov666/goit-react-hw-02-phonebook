@@ -19,12 +19,9 @@ export const Input = styled.input`
 export const Button = styled.button`
   padding: 10px 20px;
   margin-top: 5px;
-  border: 1px solid;
+  border: 2px solid;
   border-radius: 5px;
   font-size: 16px;
-  :hover {
-    background-color: #e0e0e0;
-  }
 `;
 
 export const Text = styled.p`

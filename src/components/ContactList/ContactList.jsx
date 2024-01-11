@@ -20,22 +20,22 @@ function ContactList({ contacts, deleteContact }) {
   );
 }
 
-function ContactItem({ contact, deleteContact }) {
-  const handleDelete = () => {
-    deleteContact(contact.id);
-  };
-
+function ContactItem({ contact: { id, name, number }, deleteContact }) {
   return (
     <ContactItems>
-      <ContactName>{contact.name}</ContactName>
-      <ContactNumber>{contact.number}</ContactNumber>
-      <Button onClick={handleDelete}>Delete</Button>
+      <ContactName>{name}</ContactName>
+      <ContactNumber>{number}</ContactNumber>
+      <Button onClick={() => deleteContact(id)}>Delete</Button>
     </ContactItems>
   );
 }
 
 ContactItem.propTypes = {
-  contact: PropTypes.object.isRequired,
+  contact: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+  }).isRequired,
   deleteContact: PropTypes.func.isRequired,
 };
 
